@@ -1,0 +1,69 @@
+﻿<Page x:Class="WoodenButcher.UI.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:WoodenButcher.UI"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="MainPage"
+      TextElement.Foreground="{DynamicResource MaterialDesignBody}">
+
+    <Grid Background="Azure">
+        <StackPanel Background="#FFD4D7D3" Orientation="Horizontal">
+            <StackPanel.Resources>
+                <Style TargetType="Label">
+                    <Setter Property="Foreground" Value="#FFEDEBEB" />
+                    <Setter Property="FontSize" Value="14"/>
+                    <Setter Property="FontFamily" Value="OCR A Extended" />
+                </Style>
+            </StackPanel.Resources>
+            <StackPanel Orientation="Vertical" Width="799">
+                <DockPanel Background="#FF6E7A72" LastChildFill="True" Margin="2">
+                    <Label Content="Wooden Butcher - Steglitz" Background="#FF669D4E" 
+                           Margin="2" DockPanel.Dock="Left" FontSize="18" />
+                </DockPanel>
+                <DockPanel LastChildFill="True" Background="#FF6E7A72" Margin="2,2,2,2">
+                    <DockPanel LastChildFill="True" Background="#FF669D4E" Margin="2">
+                        <Label Content="Suche: " />
+                        <TextBox x:Name="SearchTextBox" Width="200" KeyUp="KeyUp_SearchFilter" />
+                        <Label Content="Bezirk: "/>
+                        <ComboBox x:Name="BezirkComboBox" Width="100" SelectionChanged="SelectionChanged_ComboBox" />
+                        <CheckBox x:Name="StreetCheckBox" Margin="5" 
+                                  Checked="IsChecked_PropertyFilterCheckBox" 
+                                  Unchecked="Unchecked_PropertyFilterCheckBox"/>
+                        <Label Content="Grund der Fällung: "/>
+                        <ComboBox x:Name="FellingReasonComboBox" Width="100" SelectionChanged="SelectionChanged_ComboBox" />
+                        <CheckBox x:Name="FellingReasonCheckBox" Margin="5" 
+                                  Checked="IsChecked_PropertyFilterCheckBox" 
+                                  Unchecked="Unchecked_PropertyFilterCheckBox"/>
+                    </DockPanel>
+                </DockPanel>
+                <ListView x:Name="DataListView" Margin="2">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="ID" DisplayMemberBinding="{Binding ID}" />
+                            <GridViewColumn Header="PLZ" DisplayMemberBinding="{Binding PLZ}" />
+                            <GridViewColumn Header="Ort" DisplayMemberBinding="{Binding Ortsteil}" />
+                            <GridViewColumn Header="Strasse" DisplayMemberBinding="{Binding Strasse}" />
+                            <GridViewColumn Header="HausNummer" DisplayMemberBinding="{Binding HausNummer}" />
+                            <GridViewColumn Header="Gattung" DisplayMemberBinding="{Binding Gattung}" />
+                            <GridViewColumn Header="Grund" DisplayMemberBinding="{Binding FaellGrund}" />
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <DockPanel LastChildFill="True" Margin="2" Background="#FF6E7A72">
+                    <DockPanel Margin="2" LastChildFill="True" DockPanel.Dock="Left" Background="#FF669D4E">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Button x:Name="LeftClickBtn" FontFamily="Marlett" Content="3" Click="ButtonClick_SwitchPage" Width="50"/>
+                            <Label x:Name="PageLabel" Content="1/1" />
+                            <Button x:Name="RightClickBtn" FontFamily="Marlett" Content="4" Click="ButtonClick_SwitchPage" Width="50" />
+                        </StackPanel>
+                    </DockPanel>
+                </DockPanel>
+
+            </StackPanel>
+        </StackPanel>
+        
+    </Grid>
+</Page>
