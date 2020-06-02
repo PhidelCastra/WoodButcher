@@ -34,6 +34,8 @@ namespace WoodenButcher.UI
         /// </summary>
         private int _currentPage = 1;
 
+        private int _ofPages;
+
         /// <summary>
         /// Viewable count of page results.
         /// </summary>
@@ -70,9 +72,9 @@ namespace WoodenButcher.UI
         {
             var pageBtn = (Button)sender;
             if(pageBtn == LeftClickBtn)
-                _currentPage = (_currentPage-1) < 1 ? (_currentResults / _pageSize) : _currentPage -= 1;
-            if(pageBtn == RightClickBtn)
-                _currentPage = (_currentPage+1) > (_currentResults / _pageSize) ? 1 : _currentPage += 1;
+                _currentPage = (_currentPage-1) < 1 ? _ofPages : _currentPage -= 1; //(_currentResults / _pageSize) : _currentPage -= 1;
+            if (pageBtn == RightClickBtn)
+                _currentPage = (_currentPage+1) > _ofPages ? 1 : _currentPage += 1; //(_currentResults / _pageSize) ? 1 : _currentPage += 1;
 
             _sortInfo.PageIndex = _currentPage;
             _sortInfo.PageSize = _pageSize;
@@ -115,11 +117,12 @@ namespace WoodenButcher.UI
 
             // Update ListView and paging label dependent of current page index and page size.
             _currentResults = sortedResults.Count();
-            var ofPages = _currentResults / _pageSize == 0 && _currentResults > 0 ? 1 : (_currentResults / _pageSize);
+            var ofPages = _currentResults / _pageSize == 0 && _currentResults > 0 ? 1 : (_currentResults / _pageSize) + 1;
             _currentPage = ofPages > _currentPage && _currentPage < 0 ? 1
                 : ofPages < _currentPage ? 1
                 : _currentResults < 1 ? 1
                 : _currentPage;
+            _ofPages = ofPages;
             //var viewAblePageNumber = _currentPage
             PageLabel.Content = $"{_currentPage}/{ofPages}";
             DataListView.ItemsSource = sortedResults
