@@ -3,20 +3,17 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
-using Ubiety.Dns.Core;
-using WoodButcher.Request.Models;
 
-namespace WoodenButcher.Request
+namespace WoodButcher.Request
 {
     public class RequestHandler<T>
     {
         private string _url = "https://www.berlin.de/ba-steglitz-zehlendorf/politik-und-verwaltung/aemter/strassen-und-gruenflaechenamt/gruenflaechen/baeume/baumfaellungen/index.php/index/all.json?q=";
 
-        /* Contructor */ 
+        /* Contructor */
         public RequestHandler() { }
-        
+
         public List<T> GetRequestResult()
         {
             // Grab data from the tree json.
@@ -29,7 +26,7 @@ namespace WoodenButcher.Request
             var r = reader.ReadToEnd();
             var json = JObject.Parse(r);
             var token = json["index"].ToString();
-            
+
             var falledTrees = JsonConvert.DeserializeObject<List<T>>(token);
             return falledTrees;
         }

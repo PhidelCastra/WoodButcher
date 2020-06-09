@@ -1,9 +1,9 @@
-﻿using SharedData;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using WoodButcher.Request;
 
-namespace WoodenButcher.UI.Models
+namespace Request.Models
 {
     public class SortInfo
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SharedData
+namespace WoodButcher.Request
 {
     public enum TreeSortProperty
     {

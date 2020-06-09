@@ -12,10 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WoodButcher.Request.Models;
-using WoodenButcher.Request;
 
-namespace WoodenButcher.UI
+namespace WoodButcher.UI
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
