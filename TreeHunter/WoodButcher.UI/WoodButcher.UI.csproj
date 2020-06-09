@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Request\WoodButcher.Request.csproj" />
+    <ProjectReference Include="..\WoodButcher.Request\WoodButcher.Request.csproj" />
   </ItemGroup>
 
 </Project>
