@@ -11,8 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SharedData\WoodenButcher.SharedData.csproj" />
-    <ProjectReference Include="..\WoodenButcher.Request\WoodenButcher.Request.csproj" />
+    <ProjectReference Include="..\Request\WoodButcher.Request.csproj" />
   </ItemGroup>
 
 </Project>

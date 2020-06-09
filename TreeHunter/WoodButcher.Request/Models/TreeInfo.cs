@@ -1,23 +1,24 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Text.Json.Serialization;
 
-namespace WoodButcher.SharedData.Models
+namespace Request.Models
 {
     [Serializable]
     public class TreeInfo
     {
-        [JsonPropertyName(name:"id")]
+        [JsonPropertyName(name: "id")]
         public int ID { get; set; }
 
-        [JsonPropertyName(name:"plz")]
+        [JsonPropertyName(name: "plz")]
         public int PLZ { get; set; }
 
-        [JsonPropertyName(name:"ortsteil")]
+        [JsonPropertyName(name: "ortsteil")]
         public string Ortsteil { get; set; }
 
-        [JsonPropertyName(name:"strasse")]
+        [JsonPropertyName(name: "strasse")]
         public string Strasse { get; set; }
 
         [JsonProperty("hausnr")]
@@ -31,13 +32,13 @@ namespace WoodButcher.SharedData.Models
 
         [JsonProperty("faellgrund")]
         public string FaellGrund { get; set; }
-    
+
         [JsonProperty("faelldatum")]
         public string Datum { get; set; }
 
         [JsonProperty("rechtswert_utm33")]
         public float Rechtswert { get; set; }
-    
+
         [JsonProperty("hochwert_utm33")]
         public float Hochwert { get; set; }
 
