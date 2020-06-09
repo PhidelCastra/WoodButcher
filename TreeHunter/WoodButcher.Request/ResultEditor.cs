@@ -19,10 +19,10 @@ namespace WoodButcher.Request
             _sortInfo = sortInfo;
         }
 
-        public void UpdateResults(SortInfo sortInfo)
+        public List<TreeInfo> UpdateResults()
         {
             // Gets sort property expression
-            Expression<Func<TreeInfo, object>> sortPropertyExpr = sortInfo.SortProperty switch
+            Expression<Func<TreeInfo, object>> sortPropertyExpr = _sortInfo.SortProperty switch
             {
                 "Strasse" => tree => tree.Strasse,
                 "ID" => tree => tree.ID,
@@ -30,10 +30,41 @@ namespace WoodButcher.Request
             };
 
             // Filter by search input field
-            var filteredResults = !string.IsNullOrEmpty(sortInfo.FilterValue)
-                ? GetFiltered(sortInfo, TreeInfos)
-                : TreeInfos;
+            var filteredResults = !string.IsNullOrEmpty(_sortInfo.FilterValue)
+                ? GetFiltered(_sortInfo, TreeInfos)
+                : TreeInfos.AsEnumerable();
 
+            if (_sortInfo.FilterProperties != null)
+                _sortInfo.FilterProperties.ToList().ForEach(kV =>
+                {
+                    filteredResults = kV.Key switch
+                    {
+                        TreeSortProperty.FellingGround => filteredResults.Where(tree => tree.FaellGrund == kV.Value),
+                        TreeSortProperty.District => filteredResults.Where(tree => tree.Ortsteil == kV.Value),
+                        _ => throw new Exception("TreeSortProperty was not exist!")
+                    };
+                });
+
+            // Sort the filtered results.
+            var sortedResults = _sortInfo.SortDirection == SortDirection.Ascending
+                ? filteredResults.OrderBy(tree => sortPropertyExpr)
+                : filteredResults.OrderByDescending(tree => sortPropertyExpr);
+            return sortedResults.ToList();
+
+
+            // Update ListView and paging label dependent of current page index and page size.
+            //_currentResults = sortedResults.Count();
+            //var ofPages = _currentResults / _pageSize == 0 && _currentResults > 0 ? 1 : (_currentResults / _pageSize) + 1;
+            //_currentPage = ofPages > _currentPage && _currentPage < 0 ? 1
+            //    : ofPages < _currentPage ? 1
+            //    : _currentResults < 1 ? 1
+            //    : _currentPage;
+            //_ofPages = ofPages;
+            ////var viewAblePageNumber = _currentPage
+            //PageLabel.Content = $"{_currentPage}/{ofPages}";
+            //DataListView.ItemsSource = sortedResults
+            //    .Skip((_currentPage - 1) * _pageSize)
+            //    .Take(_pageSize);
         }
 
         /// <summary>

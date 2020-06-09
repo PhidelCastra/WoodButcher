@@ -19,7 +19,7 @@ namespace Request.Models
 
         public string SortProperty { get; set; }
 
-        public List<string> DropboxProperties { get; set; } 
+        public Dictionary<TreeSortProperty, string> FilterProperties { get; set; } 
     }
 
     public enum SortDirection
