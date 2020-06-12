@@ -9,30 +9,33 @@ namespace WoodButcher.Request
 {
     public class ResultEditor
     {
+        /// <summary>
+        /// List with all TreeInfo -objects.
+        /// </summary>
         public List<TreeInfo> TreeInfos { get; set; }
 
+        /// <summary>
+        /// SortInfo includes informations of sort and filter process for a list with TreeInfos.
+        /// </summary>
         private SortInfo _sortInfo;
 
+        /* Constructor */
         public ResultEditor(List<TreeInfo> treeInfos, SortInfo sortInfo) 
         {
             TreeInfos = treeInfos;
             _sortInfo = sortInfo;
         }
 
-        public List<TreeInfo> UpdateResults()
+        /// <summary>
+        /// Prepare a filtered, sorted TreeInfo List of this.TreeInfos, dependent of the sort info -values.
+        /// </summary>
+        /// <returns>The filtered, sorted List with tree infos.</returns>
+        public List<TreeInfo> GetPreparedResults()
         {
-            // Gets sort property expression
-            Expression<Func<TreeInfo, object>> sortPropertyExpr = _sortInfo.SortProperty switch
-            {
-                "Strasse" => tree => tree.Strasse,
-                "ID" => tree => tree.ID,
-                _ => throw new Exception("Property is not available")
-            };
-
             // Filter by search input field
             var filteredResults = !string.IsNullOrEmpty(_sortInfo.FilterValue)
-                ? GetFiltered(_sortInfo, TreeInfos)
-                : TreeInfos.AsEnumerable();
+                ? GetFiltered(_sortInfo, TreeInfos).AsQueryable()
+                : TreeInfos.AsQueryable();
 
             if (_sortInfo.FilterProperties != null)
                 _sortInfo.FilterProperties.ToList().ForEach(kV =>
@@ -44,27 +47,27 @@ namespace WoodButcher.Request
                         _ => throw new Exception("TreeSortProperty was not exist!")
                     };
                 });
+            
+            // Gets sort property expression
+            Expression<Func<TreeInfo, object>> sortPropertyExpr = _sortInfo.SortProperty switch
+            {
+                "ID" => tree => tree.ID,
+                "PLZ" => tree => tree.PLZ,
+                "Strasse" => tree => tree.Strasse,
+                "HausNummer" => tree => tree.HausNummer,
+                "BaumNummer" => tree => tree.BaumNummer,
+                "Gattung" => tree => tree.Gattung,
+                "FaellGrund" => tree => tree.FaellGrund,
+                "Ortsteil" => tree => tree.Ortsteil,
+                "Datum" => tree => tree.Datum,
+                _ => throw new Exception("Property is not available")
+            };
 
             // Sort the filtered results.
-            var sortedResults = _sortInfo.SortDirection == SortDirection.Ascending
-                ? filteredResults.OrderBy(tree => sortPropertyExpr)
-                : filteredResults.OrderByDescending(tree => sortPropertyExpr);
+            var sortedResults = _sortInfo.SortAscending == true
+                ? filteredResults.OrderBy(sortPropertyExpr)
+                : filteredResults.OrderByDescending(sortPropertyExpr);
             return sortedResults.ToList();
-
-
-            // Update ListView and paging label dependent of current page index and page size.
-            //_currentResults = sortedResults.Count();
-            //var ofPages = _currentResults / _pageSize == 0 && _currentResults > 0 ? 1 : (_currentResults / _pageSize) + 1;
-            //_currentPage = ofPages > _currentPage && _currentPage < 0 ? 1
-            //    : ofPages < _currentPage ? 1
-            //    : _currentResults < 1 ? 1
-            //    : _currentPage;
-            //_ofPages = ofPages;
-            ////var viewAblePageNumber = _currentPage
-            //PageLabel.Content = $"{_currentPage}/{ofPages}";
-            //DataListView.ItemsSource = sortedResults
-            //    .Skip((_currentPage - 1) * _pageSize)
-            //    .Take(_pageSize);
         }
 
         /// <summary>

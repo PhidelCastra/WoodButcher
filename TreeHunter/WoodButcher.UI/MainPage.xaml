@@ -10,7 +10,8 @@
       TextElement.Foreground="{DynamicResource MaterialDesignBody}">
 
     <Grid Background="Azure">
-        <StackPanel Background="#FFD4D7D3" Orientation="Horizontal">
+        <DockPanel VerticalAlignment="Stretch">
+            <StackPanel DockPanel.Dock="Left" Background="#FFD4D7D3" Orientation="Horizontal">
             <StackPanel.Resources>
                 <Style TargetType="Label">
                     <Setter Property="Foreground" Value="#FFEDEBEB" />
@@ -18,9 +19,9 @@
                     <Setter Property="FontFamily" Value="OCR A Extended" />
                 </Style>
             </StackPanel.Resources>
-            <StackPanel Orientation="Vertical" Width="799">
+            <StackPanel Orientation="Vertical" Width="799" VerticalAlignment="Stretch" >
                 <DockPanel Background="#FF6E7A72" LastChildFill="True" Margin="2">
-                    <Label Content="Wooden Butcher - Steglitz" Background="#FF669D4E" 
+                    <Label Content="Liste der gefällten Bäume - Steglitz" Background="#FF669D4E" 
                            Margin="2" DockPanel.Dock="Left" FontSize="18" />
                 </DockPanel>
                 <DockPanel LastChildFill="True" Background="#FF6E7A72" Margin="2,2,2,2">
@@ -39,7 +40,7 @@
                                   Unchecked="Unchecked_PropertyFilterCheckBox"/>
                     </DockPanel>
                 </DockPanel>
-                <ListView x:Name="DataListView" Margin="2">
+                <ListView x:Name="DataListView" Margin="2" GridViewColumnHeader.Click="Click_ColumnHeader">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="ID" DisplayMemberBinding="{Binding ID}" />
@@ -64,6 +65,6 @@
 
             </StackPanel>
         </StackPanel>
-
+        </DockPanel>
     </Grid>
 </Page>

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using WoodButcher.Request;
 
@@ -51,7 +52,7 @@ namespace WoodButcher.UI
                 FilterValue = null,
                 PageIndex = _currentPage,
                 PageSize = _pageSize,
-                SortDirection = SortDirection.Ascending,
+                SortAscending = true,
                 SortProperty = "ID"
             };
 
@@ -63,13 +64,24 @@ namespace WoodButcher.UI
             UpdateDistrictComboBox();
         }
 
+        public void Click_ColumnHeader(object sender, RoutedEventArgs e)
+        {
+            var columnHeader = e.OriginalSource as GridViewColumnHeader;
+            var bindingPropertyName = ((System.Windows.Data.Binding)columnHeader.Column.DisplayMemberBinding).Path.Path;
+
+            _sortInfo.SortProperty = bindingPropertyName;
+            _sortInfo.SortAscending = !_sortInfo.SortAscending;
+
+            UpdateResults();
+        }
+
         private void ButtonClick_SwitchPage(object sender, RoutedEventArgs e)
         {
             var pageBtn = (Button)sender;
             if (pageBtn == LeftClickBtn)
-                _currentPage = (_currentPage - 1) < 1 ? _ofPages : _currentPage -= 1; //(_currentResults / _pageSize) : _currentPage -= 1;
+                _currentPage = (_currentPage - 1) < 1 ? _ofPages : _currentPage -= 1;
             if (pageBtn == RightClickBtn)
-                _currentPage = (_currentPage + 1) > _ofPages ? 1 : _currentPage += 1; //(_currentResults / _pageSize) ? 1 : _currentPage += 1;
+                _currentPage = (_currentPage + 1) > _ofPages ? 1 : _currentPage += 1;
 
             _sortInfo.PageIndex = _currentPage;
             _sortInfo.PageSize = _pageSize;
@@ -82,36 +94,9 @@ namespace WoodButcher.UI
         /// </summary>
         private void UpdateResults()
         {
-            // Gets sort property expression
-            //Expression<Func<TreeInfo, object>> sortPropertyExpr = _sortInfo.SortProperty switch
-            //{
-            //    "Strasse" => tree => tree.Strasse,
-            //    "ID" => tree => tree.ID,
-            //    _ => throw new Exception("Property is not available")
-            //};
-
-            //// Filter by search input field
-            //var filteredResults = !string.IsNullOrEmpty(_sortInfo.FilterValue)
-            //    ? GetFiltered(_sortInfo, _results)
-            //    : _results.AsEnumerable();
-
-            //if (_sortInfo.FilterProperties != null)
-            //    _sortInfo.FilterProperties.ToList().ForEach(kV =>
-            //    {
-            //        filteredResults = kV.Key switch
-            //        {
-            //            TreeSortProperty.FellingGround => filteredResults.Where(tree => tree.FaellGrund == kV.Value),
-            //            TreeSortProperty.District => filteredResults.Where(tree => tree.Ortsteil == kV.Value),
-            //            _ => throw new Exception("TreeSortProperty was not exist!")
-            //        };
-            //    });
-
-            // Sort the filtered results.
-            var sortedResults = _resultEditor.UpdateResults(); 
-                //_sortInfo.SortDirection == SortDirection.Ascending
-                //? filteredResults.OrderBy(tree => sortPropertyExpr)
-                //: filteredResults.OrderByDescending(tree => sortPropertyExpr);
-
+            // Filter and sort the filtered results.
+            var sortedResults = _resultEditor.GetPreparedResults(); 
+                
             // Update ListView and paging label dependent of current page index and page size.
             _currentResults = sortedResults.Count();
             var ofPages = _currentResults / _pageSize == 0 && _currentResults > 0 ? 1 : (_currentResults / _pageSize) + 1;
@@ -175,7 +160,6 @@ namespace WoodButcher.UI
         {
             UpdateCheckboxValues();
 
-            _sortInfo.FilterProperty = null;
             _sortInfo.PageIndex = _currentPage;
 
             UpdateResults();

@@ -11,20 +11,12 @@ namespace Request.Models
 
         public int PageSize { get; set; }
 
-        public SortDirection SortDirection { get; set; }
+        public bool SortAscending { get; set; } = true;
 
         public string FilterValue { get; set; }
-
-        public TreeSortProperty? FilterProperty { get; set; }
 
         public string SortProperty { get; set; }
 
         public Dictionary<TreeSortProperty, string> FilterProperties { get; set; } 
-    }
-
-    public enum SortDirection
-    {
-        Ascending,
-        Descending
     }
 }
