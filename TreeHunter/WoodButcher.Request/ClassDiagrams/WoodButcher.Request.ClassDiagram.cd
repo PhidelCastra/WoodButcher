@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Request.Models.SortInfo">
+    <Position X="5.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAgAAAgEAAAIAAAAAAAAAAAEAAAAAg=</HashCode>
+      <FileName>Models\SortInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Request.Models.TreeInfo">
+    <Position X="10.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAUAAAAAgAgBAQEAAAAAABAgACAACAQABAAAAAAAA=</HashCode>
+      <FileName>Models\TreeInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WoodButcher.Request.RequestHandler&lt;T&gt;">
+    <Position X="8" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>RequestHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WoodButcher.Request.ResultEditor">
+    <Position X="8" Y="0.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAgAAAAAAAAAAAAAABAAAAAAAAAAAY=</HashCode>
+      <FileName>ResultEditor.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_sortInfo" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="TreeInfos" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Enum Name="WoodButcher.Request.TreeSortProperty">
+    <Position X="5.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TreeSortProperty.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
