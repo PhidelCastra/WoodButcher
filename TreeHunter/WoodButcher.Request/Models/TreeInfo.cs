@@ -48,9 +48,4 @@ namespace Request.Models
         [JsonProperty("geograf_hochwert")]
         public float GeoHochwert { get; set; }
     }
-
-    public class TreeInfos
-    {
-        public List<TreeInfo> infos { get; set; }
-    }
 }
